@@ -29,6 +29,7 @@ class AvatarPage extends StatelessWidget {
           image: NetworkImage("https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Stan_Lee_by_Gage_Skidmore_3.jpg/220px-Stan_Lee_by_Gage_Skidmore_3.jpg"),
           placeholder: AssetImage("assets/jar-loading.gif"),
           fadeInDuration: Duration(milliseconds: 200),
+          
         ),
       ),
     );
