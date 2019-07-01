@@ -6,13 +6,34 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> {
+
+  List<int> _numbersList = [1,2,3,4,5];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("List"),
       ),
-      body: Container(),
+      body: _buildList(),
     );
   }
+
+  Widget _buildList(){
+    return ListView.builder(
+      itemCount: _numbersList.length,
+      itemBuilder: (BuildContext context, int index) {
+        final int image = _numbersList[index];
+        return FadeInImage(
+          image: NetworkImage("https://picsum.photos/500/300/?image=$image"),
+          placeholder: AssetImage('assets/jar-loading.gif'),
+        );
+      },
+    );
+  }
+
+
+
+
+
 }
