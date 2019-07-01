@@ -7,11 +7,14 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
 
-
   String _name = "";
   String _email = "";
   String _password = "";
   String _date = "";
+  String _selectedOption = "Fly";
+
+
+  List<String> _powers = ["Fly", "x Ray", "Super Breathe", "Super Strength"];
 
   TextEditingController _inputFieldDateController = new TextEditingController();
 
@@ -32,7 +35,9 @@ class _InputPageState extends State<InputPage> {
           Divider(),
           _buildDateInput(context),
           Divider(),
-          _buildPersonTile()
+          _buildDropdown(),
+          Divider(),
+          _buildPersonTile(),
         ],
       )
     );
@@ -62,6 +67,8 @@ class _InputPageState extends State<InputPage> {
   Widget _buildPersonTile() {
     return ListTile(
       title: Text("Nombre es: $_name"),
+      subtitle: Text("Email: $_email"),
+      trailing: Text(_selectedOption),
     );
   }
 
@@ -140,6 +147,37 @@ class _InputPageState extends State<InputPage> {
         _inputFieldDateController.text = _date;
       });
     }
+  }
+
+  List<DropdownMenuItem<String>> getDropdownOptions() {
+    List<DropdownMenuItem<String>> list = new List();
+    _powers.forEach((power){
+      list.add( DropdownMenuItem(
+        child: Text(power),
+        value: power
+      ));
+    });
+    return list;
+  }
+
+  Widget _buildDropdown() {
+
+    return Row(
+      children: <Widget>[
+        Icon(Icons.select_all),
+        SizedBox(width: 30.0,),
+        DropdownButton(
+          value: _selectedOption,
+          items: getDropdownOptions(),
+          onChanged: (String option) {
+            setState(() {
+              this._selectedOption = option;
+            });
+          },
+        )
+      ],
+    );
+
   }
 
 
