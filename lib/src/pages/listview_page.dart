@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class ListPage extends StatefulWidget {
@@ -67,18 +68,33 @@ class _ListPageState extends State<ListPage> {
   }
 
   Widget _buildList(){
-    return ListView.builder(
-      controller: _scrollController,
-      itemCount: _numbersList.length,
-      itemBuilder: (BuildContext context, int index) {
-        final int image = _numbersList[index];
-        return FadeInImage(
-          image: NetworkImage("https://picsum.photos/500/300/?image=$image"),
-          placeholder: AssetImage('assets/jar-loading.gif'),
-        );
-      },
+    return RefreshIndicator(
+      onRefresh: _getRefreshedData,
+      child: ListView.builder(
+        controller: _scrollController,
+        itemCount: _numbersList.length,
+        itemBuilder: (BuildContext context, int index) {
+          final int image = _numbersList[index];
+          return FadeInImage(
+            image: NetworkImage("https://picsum.photos/500/300/?image=$image"),
+            placeholder: AssetImage('assets/jar-loading.gif'),
+          );
+        },
+      ),
     );
   }
+
+  Future<Null> _getRefreshedData() async {
+    final duration = new Duration(seconds: 2);
+    new Timer(duration, () {
+      _numbersList.clear();
+      _lastItem++;
+      _addImages();
+    });
+
+    return Future.delayed(duration);
+  }
+
 
   Future<Null> _fetchData() async {
     _isLoading = true;
